@@ -3,7 +3,7 @@
 </script>
 
 <template>
-
+<p>DataView</p>
 </template>
 
 <style scoped>
