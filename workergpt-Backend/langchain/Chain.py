@@ -1,5 +1,4 @@
 import zhipuai
-from CustomLLM import CustomLLM
 
 import globals
 from zhipuLLM import ChatGLM
