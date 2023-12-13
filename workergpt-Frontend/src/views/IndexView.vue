@@ -23,9 +23,6 @@ const obj = ref({
         <el-col :span="24">
           <div class="text-container">
             <h1>你好，我是WorkerGPT😎</h1>
-            <br>
-            <br>
-            <br>
             <p>🩷我可以帮助你解决数据与文档相关文件的问题</p>
             <p>💙智能问答可以根据你提供的资料进行知识问答，当然没有提供资料的情况下也可以工作</p>
             <p>🩵对你上传的文档进行你想要你处理，例如：“请帮我总结我上传的homework.docx”</p>
