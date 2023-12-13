@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import IndexView from "@/views/IndexView.vue";
 import DataView from "@/views/DataView.vue";
 import TextView from "@/views/TextView.vue";
-import TextGeneration from "@/views/TextGeneration.vue";
+import TextGeneration from "@/views/GenerationView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
