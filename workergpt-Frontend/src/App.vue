@@ -22,10 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
             </el-col>
           </el-row>
         </el-header>
-
         <el-divider />
-
-        <div class="side-nav">
         <el-container class="side-nav">
           <el-aside width="200px" class="side-nav">
             <el-menu
@@ -57,13 +54,13 @@ import { RouterLink, RouterView } from 'vue-router'
             </el-menu>
           </el-aside>
 
-          <el-main>
+          <el-main class="main-container">
             <router-view>
             </router-view>
           </el-main>
 
         </el-container>
-        </div>
+
       </el-container>
 </template>
 
@@ -90,5 +87,9 @@ import { RouterLink, RouterView } from 'vue-router'
 
 .link-container{
   margin-top: 10px;
+}
+
+.main-container{
+  height: 100%;
 }
 </style>
