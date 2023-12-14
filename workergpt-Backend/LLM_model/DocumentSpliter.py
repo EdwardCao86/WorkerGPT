@@ -1,5 +1,4 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from app import app
 
 class DocumentSpliter:
     text_splitter = RecursiveCharacterTextSplitter(
@@ -14,5 +13,4 @@ class DocumentSpliter:
 
     def split_document(self, documents):
         texts = self.text_splitter.split_documents(documents)
-        app.logger.info("len texts: " + str(len(texts)))
         return texts
