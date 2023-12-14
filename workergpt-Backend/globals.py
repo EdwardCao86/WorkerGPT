@@ -1,12 +1,12 @@
 class GlobalVariables:
-    def __init__(self):
-        self.variables = {}
+	def __init__(self):
+		self.variables = {}
 
-    def get(self, key):
-        return self.variables.get(key)
+	def get(self, key):
+		return self.variables.get(key)
 
-    def set(self, key, value):
-        self.variables[key] = value
+	def set(self, key, value):
+		self.variables[key] = value
 
 
 # 创建全局变量管理器对象
