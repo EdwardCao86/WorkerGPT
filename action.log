@@ -1,0 +1,9 @@
+2023-12-14 18:24:53,463 - DEBUG - Starting new HTTPS connection (1): open.bigmodel.cn:443
+2023-12-14 18:24:54,249 - DEBUG - https://open.bigmodel.cn:443 "POST /api/paas/v3/model-api/chatglm_turbo/sse-invoke HTTP/1.1" 200 None
+2023-12-14 18:24:54,249 - DEBUG - Initialized SSE client from event source <Response [200]>
+2023-12-14 18:26:14,926 - DEBUG - Starting new HTTPS connection (1): open.bigmodel.cn:443
+2023-12-14 18:26:15,647 - DEBUG - https://open.bigmodel.cn:443 "POST /api/paas/v3/model-api/chatglm_turbo/sse-invoke HTTP/1.1" 200 None
+2023-12-14 18:26:15,648 - DEBUG - Initialized SSE client from event source <Response [200]>
+2023-12-14 18:40:34,193 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2023-12-14 18:40:34,194 - INFO - [33mPress CTRL+C to quit[0m

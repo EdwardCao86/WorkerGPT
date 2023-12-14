@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import os
 from flask import jsonify
+from LLM_model.Chain import text_stream
 
 from config import config_setting
 
@@ -60,6 +61,7 @@ def delete_file():
         file_json = {'filename': filename, 'success': False, 'message': 'File not found'}
         return jsonify(file_json)
 
+	
     os.remove(filepath)
     file_json = {'filename': filename, 'success': True, 'message': 'File deleted successfully'}
     return jsonify(file_json)
@@ -67,4 +69,6 @@ def delete_file():
 
 if __name__ == '__main__':
     config_setting(app)
+    
+    text_stream("请讲一个{topic}的故事。", {"topic": "冰淇淋"})
     app.run()

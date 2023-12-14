@@ -1,7 +1,3 @@
-from globals import global_vars
-import time
-import logging
-import requests
 from typing import Optional, List, Dict, Mapping, Any
 
 import zhipuai
@@ -13,10 +9,8 @@ from langchain.llms.base import LLM
 from typing import Optional, List, Any, Mapping, Iterator
 from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.schema.output import GenerationChunk
-from http import HTTPStatus
 from langchain.schema import AIMessage, HumanMessage
 
-logging.basicConfig(level=logging.INFO)
 # 启动llm的缓存
 langchain.llm_cache = InMemoryCache()
 
@@ -49,7 +43,7 @@ class ChatGLM(LLM):
                 pass
             elif event.event == "finish":
                 print(event.meta)
-                return '';
+                return ''
             else:
                 print(event.data)
 

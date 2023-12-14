@@ -3,15 +3,17 @@ from globals import global_vars
 import os
 import configparser
 import logging
+import zhipuai
 
 
 def config_setting(app):
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read('./workergpt-Backend/config.ini')
     # print(config.sections())
     api_key = config.get("ZHI_PU_API", "api_key")
     global_vars.set("api_key", api_key)
     print("USING API KEY: ", api_key)
+    zhipuai.api_key = api_key
 
     logging_level = config.get("LOGGING", "level")
     global_vars.set("logging_level", logging_level)
