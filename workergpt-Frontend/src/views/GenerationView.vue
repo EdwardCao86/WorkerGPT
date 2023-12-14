@@ -31,16 +31,16 @@ import ChatBox from "@/components/ChatBox.vue";
 
 .side-bar{
   height: 100%;
-  background-color: yellow;
+  background-color: whitesmoke;
 }
 .dialog-container{
   height: 100%;
-  background-color: lightgreen;
+  //background-color: lightgreen;
   overflow: hidden;
 }
 
 .input-container{
-  background-color: deepskyblue;
+  //background-color: deepskyblue;
 }
 
 </style>

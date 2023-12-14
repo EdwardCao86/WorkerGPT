@@ -25,7 +25,7 @@ function submit () {
   <div class="input-container">
     <el-form  :inline="true" :model="inputMessage" class="input-form">
       <el-row>
-        <el-col :span="20" >
+        <el-col :span="20" :offset="1">
           <el-form-item style="width: 100%">
             <el-input
                 v-model="inputMessage.content"
@@ -35,7 +35,7 @@ function submit () {
             />
           </el-form-item>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="2" style="padding-left: 20px">
           <el-form-item>
             <el-button type="primary" @click="submit">
               提交<el-icon class="el-icon--right"><Upload /></el-icon>
@@ -57,5 +57,6 @@ el-form-item{
 .input-container{
   height: 30%;
   width: 100%;
+  padding-top: 15px;
 }
 </style>

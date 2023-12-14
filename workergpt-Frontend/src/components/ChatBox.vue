@@ -14,9 +14,9 @@ const { inputText }= storeToRefs(store)
 <template>
     <div class="chatContent">
       <el-scrollbar>
-        <ul style="background-color: whitesmoke">
+        <ul>
           <li v-for="(m) in inputText" class="scrollbar-demo-item">
-            <span><el-avatar :icon="UserFilled" /></span>
+<!--            <span><el-avatar :icon="UserFilled" /></span>-->
             <p>{{m}}</p>
           </li>
         </ul>
@@ -47,12 +47,16 @@ p {
 }
 .scrollbar-demo-item {
   display: flex;
-  align-items: center;
-  justify-content: left;
+  //align-items: center;
+  //justify-content: left;
   margin: 10px;
   text-align: center;
   border-radius: 4px;
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
+}
+ul{
+  display: flex;
+  flex-direction: column;
 }
 </style>
