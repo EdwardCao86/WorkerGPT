@@ -35,7 +35,7 @@ function submit () {
             />
           </el-form-item>
         </el-col>
-        <el-col :span="2" style="padding-left: 20px">
+        <el-col :span="1" :offset="1">
           <el-form-item>
             <el-button type="primary" @click="submit">
               提交<el-icon class="el-icon--right"><Upload /></el-icon>
