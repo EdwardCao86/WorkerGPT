@@ -16,7 +16,7 @@ def text_stream(template : str, query : str):
 	for chunk in chain1.stream(query):
 		print(chunk, end="", flush=True)
 	for chunk in chain.stream(query):
-    
+	
 		print(chunk, end="", flush=True)
 	# res = chain.invoke({"topic": "ice cream"})
 	# print(res)
