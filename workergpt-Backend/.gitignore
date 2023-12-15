@@ -1,4 +1,0 @@
-.env
-.flaskenv
-config.ini
-*.log

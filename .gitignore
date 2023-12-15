@@ -1,0 +1,8 @@
+.env
+.flaskenv
+config.ini
+*.log
+
+.vscode/
+.idea/
+.pytest_cache/
