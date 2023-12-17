@@ -1,19 +1,21 @@
 # 读取congif文件 设置全局变量
-from globals import global_vars
-import os
+from . import globals as globals
+from .globals import global_vars
 import configparser
 import logging
 import zhipuai
+import openai
 
 
 def config_setting(app):
 	config = configparser.ConfigParser()
 	config.read('./workergpt-Backend/config.ini')
 	# print(config.sections())
-	api_key = config.get("ZHI_PU_API", "api_key")
+	api_key = config.get("OPEN_AI", "api_key")
 	global_vars.set("api_key", api_key)
 	print("USING API KEY: ", api_key)
-	zhipuai.api_key = api_key
+	
+	openai.api_key = api_key
 
 	logging_level = config.get("LOGGING", "level")
 	global_vars.set("logging_level", logging_level)

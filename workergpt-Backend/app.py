@@ -6,7 +6,7 @@ from LLM_model.DocumentLoader import DocumentLoader
 from LLM_model.DocumentSpliter import DocumentSpliter
 from LLM_model.Retrieval import VectorDB
 
-from config import config_setting
+from global_arg.config import config_setting
 
 app = Flask(__name__)
 vectorDB = VectorDB('db/admin')
@@ -86,4 +86,5 @@ def delete_file():
 
 if __name__ == '__main__':
 	config_setting(app)
+	# text_stream(template="问题是：{query}", query={"query": "你好"}, db=vectorDB, topk=10)
 	app.run()

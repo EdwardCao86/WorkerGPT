@@ -1,8 +1,0 @@
-POST http://localhost:5000/api/download HTTP/1.1
-content-type: application/json
-
-{
-    "name":"Hendry",
-    "salary":"61888",
-    "age":"26"
-}
