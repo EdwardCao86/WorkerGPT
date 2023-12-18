@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import os
 from flask import jsonify
-from LLM_model.Chain import text_stream
+# from LLM_model.Chain import text_stream
 from LLM_model.DocumentLoader import DocumentLoader
 from LLM_model.DocumentSpliter import DocumentSpliter
 from LLM_model.Retrieval import VectorDB
