@@ -25,9 +25,11 @@
 import type { UploadProps} from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
 import {ElMessage, ElMessageBox} from "element-plus";
+// import Axios from "axios"
+// Axios.defaults.baseURL='/api'
 
 
-const handelBeforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+const handelBeforeRemove: UploadProps['beforeRemove'] = (uploadFile) => {
   return ElMessageBox.confirm(
       '确定要移除'+uploadFile.name+'?',
       'Warning',
@@ -56,11 +58,11 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
 // 请求参数
   const requestOptions = {
     method: 'POST', // 请求方法，可以是GET、POST等
-    headers: { 'Content-Type': 'application/json' }, // 请求头，指定数据格式为JSON
+    headers: { "Content-Type": 'application/json' }, // 请求头，指定数据格式为JSON
     body: JSON.stringify({ filename : fileName }) // 请求体，将字符串转换为JSON格式
   };
 // 发送请求
-  fetch('http://127.0.0.1:5000/api/delete', requestOptions)
+  fetch('/api/delete', requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data)
