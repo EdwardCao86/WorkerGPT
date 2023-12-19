@@ -3,6 +3,9 @@
 config.ini
 *.log
 
+admin/
+db/
+
 .vscode/
 .idea/
 .pytest_cache/
