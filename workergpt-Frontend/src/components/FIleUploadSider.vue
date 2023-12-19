@@ -2,7 +2,7 @@
   <el-upload
       class="upload"
       drag
-      action="https://run.mocky.io/v3/311e58ad-2924-4180-8901-75bd67f690e9"
+      action="/api/upload"
       multiple
       :on-error="handleError"
       :on-success="handleSuccess"
@@ -25,6 +25,8 @@
 import type { UploadProps} from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
 import {ElMessage, ElMessageBox} from "element-plus";
+
+
 const handelBeforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
   return ElMessageBox.confirm(
       '确定要移除'+uploadFile.name+'?',
@@ -58,7 +60,7 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
     body: JSON.stringify({ filename : fileName }) // 请求体，将字符串转换为JSON格式
   };
 // 发送请求
-  fetch('https://run.mocky.io/v3/930341e1-c2ca-4562-9a55-c1d26875e515', requestOptions)
+  fetch('http://127.0.0.1:5000/api/delete', requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data)

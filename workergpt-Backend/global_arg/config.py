@@ -9,7 +9,7 @@ import openai
 
 def config_setting(app):
 	config = configparser.ConfigParser()
-	config.read('./workergpt-Backend/config.ini')
+	config.read('./config.ini')
 	# print(config.sections())
 	api_key = config.get("OPEN_AI", "api_key")
 	global_vars.set("api_key", api_key)
