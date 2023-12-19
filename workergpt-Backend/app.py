@@ -66,9 +66,10 @@ def get_file():
 	return jsonify(file_json)
 
 
-@app.route('/api/delete', methods=['GET'])
+@app.route('/api/delete', methods=['POST'])
 def delete_file():
-	filename = request.args.get('filename')
+	file = request.get_json()
+	filename = file['filename']
 	if not filename:
 		file_json = {'filename': '', 'success': False, 'message': 'No filename provided'}
 		return jsonify(file_json), 400
