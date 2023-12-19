@@ -5,19 +5,19 @@ from langchain.document_loaders import TextLoader, CSVLoader, PyPDFLoader, \
 	DirectoryLoader, JSONLoader, BSHTMLLoader, UnstructuredMarkdownLoader
 
 
-def get_fileloader(filetype: str):
+def get_fileloader(filetype: str, file_name: str):
 	if filetype == 'txt':
-		return TextLoader
+		return TextLoader(file_name, encoding='utf-8')
 	elif filetype == 'csv':
-		return CSVLoader
+		return CSVLoader(file_path=file_name, encoding='utf-8')
 	elif filetype == 'json':
-		return JSONLoader
+		return JSONLoader(file_path=file_name)
 	elif filetype == 'html':
-		return BSHTMLLoader
+		return BSHTMLLoader(file_path=file_name, open_encoding='utf-8')
 	elif filetype == 'md':
-		return UnstructuredMarkdownLoader
+		return UnstructuredMarkdownLoader(file_path=file_name)
 	elif filetype == 'pdf':
-		return PyPDFLoader
+		return PyPDFLoader(file_path=file_name)
 	else:
 		return None
 
@@ -40,8 +40,8 @@ class DocumentLoader:
 	def load_file(self, username: str, filename: str):
 		self.username = username
 		filetype = filename.split('.')[-1]
-		loader_cls = get_fileloader(filetype)
-		text_loader = loader_cls('./' + username + '/' + filetype + '/' + filename, encoding='utf-8')
+		loader_cls = get_fileloader(filetype, './' + username + '/' + filetype + '/' + filename)
+		text_loader = loader_cls
 		return text_loader.load()
 
 	def _load_directory(self, filetype: str):

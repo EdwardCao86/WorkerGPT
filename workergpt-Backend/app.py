@@ -30,6 +30,12 @@ def upload_file():
 		return 'No selected file', 400
 
 	file_extension = file.filename.split('.')[-1]
+
+	dir_name = 'admin/' + file_extension
+
+	if not os.path.exists(dir_name):
+		os.makedirs(dir_name)
+
 	# 保存上传的文件到服务器
 	file.save('admin/' + file_extension + '/' + file.filename)
 	
