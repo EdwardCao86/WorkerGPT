@@ -9,27 +9,30 @@ from langchain.llms.base import LLM
 from typing import Optional, List, Any, Mapping, Iterator
 from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.schema.output import GenerationChunk
+from global_arg import globals
 
 from openai import OpenAI
+import os
 
 # 启动llm的缓存
 langchain.llm_cache = InMemoryCache()
+client = OpenAI(api_key=globals.global_vars.get("api_key"))
+
 
 
 class ChatGLM(LLM):
-	openai_model: Optional[str] = 'gpt-3.5-turbo-instruct'
+	openai_model: Optional[str] = 'gpt-3.5-turbo'
 	temperature: Optional[str] = 0.7
 	max_tokens: int = 256
 	top_p: float = 1
-	client = OpenAI()
-
+	
 
 	@property
 	def _llm_type(self) -> str:
 		return "chat_openai_llm"
 
 	def _make_stream(self, prompt: str):
-		stream = self.client.chat.completions.create(
+		stream = client.chat.completions.create(
     	model=self.openai_model,
     	messages=[{"role": "user", "content": prompt}],
 		temperature= self.temperature,
@@ -48,8 +51,8 @@ class ChatGLM(LLM):
 		**kwargs: Any,
 	) -> Iterator[GenerationChunk]:
 		responses = self._make_stream(prompt)
-		for event in responses.events():
-			yield GenerationChunk(text=str(event))
+		for event in responses:
+			yield GenerationChunk(text=str(event.dict()))
 
 	def _call(self, prompt: str,
 			  stop: Optional[List[str]] = None) -> str:
