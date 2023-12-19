@@ -49,8 +49,8 @@ class VectorDB:
 		
 		self.collection.add(ids=ids, documents=documents, metadatas=metadatas)
 		
-	def query(self, query):
-		matched_documents = self.collection.query(query_texts=query)
+	def query(self, query, top_k=10):
+		matched_documents = self.collection.query(query_texts=query, n_results=top_k)
 		return matched_documents
 	
 	def delete(self, username: str, file_name: str):
