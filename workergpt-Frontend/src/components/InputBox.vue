@@ -2,6 +2,7 @@
 
 import { reactive } from 'vue'
 import { useInputStore } from '@/stores/inputContent'
+import {Upload} from "@element-plus/icons-vue";
 
 // 表单上传
 // 输入框数据
@@ -29,7 +30,7 @@ function submit () {
           <el-form-item style="width: 100%">
             <el-input
                 v-model="inputMessage.content"
-                :autosize="{ minRows: 1, maxRows: 2 }"
+                :autosize="{ minRows: 1, maxRows: 1 }"
                 type="textarea"
                 placeholder="😊请在这里输入需要你要问的问题!😊"
             />
