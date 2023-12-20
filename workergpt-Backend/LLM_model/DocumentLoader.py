@@ -10,8 +10,9 @@ def get_fileloader(filetype: str, file_name: str):
 		return TextLoader(file_name, encoding='utf-8')
 	elif filetype == 'csv':
 		return CSVLoader(file_path=file_name, encoding='utf-8')
-	elif filetype == 'json':
-		return JSONLoader(file_path=file_name)
+	# json格式使用jq依赖，无法在win上正常运作，先不做支持。
+	# elif filetype == 'json':
+	# 	return JSONLoader(file_path=file_name, jq_schema='.messages[].content')
 	elif filetype == 'html':
 		return BSHTMLLoader(file_path=file_name, open_encoding='utf-8')
 	elif filetype == 'md':

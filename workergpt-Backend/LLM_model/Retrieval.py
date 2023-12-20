@@ -44,10 +44,18 @@ class VectorDB:
 	def add(self, documents):
 		print(documents)
 		ids = [generate_hash(doc.page_content) for doc in documents]
+
+		contents = [doc.page_content for doc in documents]
 		metadatas = [doc.metadata for doc in documents]
-		documents = [doc.page_content for doc in documents]
-		
-		self.collection.add(ids=ids, documents=documents, metadatas=metadatas)
+
+		# Create a new map using ids as the key and combine documents and metadatas
+		new_map = {id: (doc, meta) for id, doc, meta in zip(ids, contents, metadatas)}
+		ids = list(new_map.keys())
+		values = list(new_map.values())
+		contents = [value[0] for value in values]
+		metadatas = [value[1] for value in values]
+
+		self.collection.update(ids=ids, documents=contents, metadatas=metadatas)
 		
 	def query(self, query, top_k=10):
 		matched_documents = self.collection.query(query_texts=query, n_results=top_k)
