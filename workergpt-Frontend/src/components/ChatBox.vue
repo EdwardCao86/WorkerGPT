@@ -16,6 +16,7 @@ const { inputText }= storeToRefs(store)
       <el-scrollbar>
         <ul>
           <li v-for="(m) in inputText" class="scrollbar-demo-item">
+			
 <!--            <span><el-avatar :icon="UserFilled" /></span>-->
             <p>{{m}}</p>
           </li>
@@ -47,8 +48,8 @@ p {
 }
 .scrollbar-demo-item {
   display: flex;
-  //align-items: center;
-  //justify-content: left;
+  align-items: center;
+  justify-content: left;
   margin: 10px;
   text-align: center;
   border-radius: 4px;

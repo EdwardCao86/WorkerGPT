@@ -1,14 +1,18 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request ,Response
 import os
 from flask import jsonify
-from LLM_model.Chain import text_stream
-from LLM_model.DocumentLoader import DocumentLoader
-from LLM_model.DocumentSpliter import DocumentSpliter
-from LLM_model.Retrieval import VectorDB
+import json
 
-from global_arg.config import config_setting
+from .LLM_model.DocumentLoader import DocumentLoader
+from .LLM_model.DocumentSpliter import DocumentSpliter
+from .LLM_model.Retrieval import VectorDB
+
+from .global_arg.config import config_setting
 
 app = Flask(__name__)
+config_setting(app)
+
+from .LLM_model.Chain import text_stream
 vectorDB = VectorDB('db/admin')
 app.logger.info('VectorDB has been loaded')
 documentLoader = DocumentLoader()
@@ -16,7 +20,7 @@ app.logger.info('DocumentLoader has been loaded')
 documentSpliter = DocumentSpliter()
 app.logger.info('DocumentSpliter has been splited')
 
-config_setting(app)
+
 
 
 @app.route('/api/upload', methods=['POST'])
@@ -94,19 +98,22 @@ def delete_file():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
+	app.logger.info(request.data)
 	data = request.get_json()
-	print(data)
 	query = data['query']
-	topk = data['topk']
-	# print(query)
-	# print(topk)
-	# print(vectorDB)
-	# print(vectorDB.query(query, topk))
-	document_template = open('./prompt/Document.txt', 'r', encoding='utf-8').read()
-	query_template = open('./prompt/Query.txt', 'r', encoding='utf-8').read()
-	stream = text_stream(template=document_template + query_template, query={"query": query}, db=vectorDB, topk=topk)
-	for events in stream:
-		yield jsonify(events)
+	topk = 10
+	
+	with open('./prompt/Document.txt', 'r', encoding='utf-8') as document_file, open('./prompt/Query.txt', 'r', encoding='utf-8') as query_file:
+		document_template = document_file.read()
+		query_template = query_file.read()
+	
+	def generate_response():
+		with app.app_context():
+			stream = text_stream(template=document_template + query_template, query={"query": query}, db=vectorDB, topk=topk)
+			for events in stream:
+				yield json.dumps(events).encode()
+
+	return Response(generate_response(), mimetype='application/json')
 
 if __name__ == '__main__':
 	# text_stream(template="问题是：{query}", query={"query": "你好"}, db=vectorDB, topk=10)

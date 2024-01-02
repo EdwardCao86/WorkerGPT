@@ -9,14 +9,18 @@ from langchain.llms.base import LLM
 from typing import Optional, List, Any, Mapping, Iterator
 from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.schema.output import GenerationChunk
-from global_arg import globals
+from ..global_arg import globals
 
 from openai import OpenAI
 import os
 
+from ..app import app
+
 # 启动llm的缓存
 langchain.llm_cache = InMemoryCache()
+app.logger.info('LLM cache has been loaded')
 client = OpenAI(api_key=globals.global_vars.get("api_key"))
+app.logger.info(globals.global_vars.get("api_key"))
 
 
 

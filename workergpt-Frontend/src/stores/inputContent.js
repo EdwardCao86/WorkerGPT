@@ -7,6 +7,6 @@ export const useInputStore = defineStore('input', () => {
     function changeContent(text) {
         inputText.value.push(text)
     }
-
     return {inputText,changeContent}
 })
+

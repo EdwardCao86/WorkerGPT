@@ -28,8 +28,10 @@ def config_setting(app : Flask):
 	global_vars.set("logging_file", logging_file)
 	app.logger.info("USING LOGGING FILE: " + logging_file)
 
+'''
 	# 创建一个日志格式器
 	formatter = '%(asctime)s - %(levelname)s - %(message)s'
+
 
 	# 配置日志记录器  
 	logger = logging.getLogger()  
@@ -49,6 +51,7 @@ def config_setting(app : Flask):
 
 	#测试logger
 	app.logger.info("TESTING LOGGER")
+'''
 
 
 

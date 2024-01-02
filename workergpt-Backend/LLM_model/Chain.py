@@ -1,14 +1,14 @@
 import zhipuai
 
-from . import openaiLLM 
-from . import Retrieval
+from .openaiLLM import ChatGLM
+from .Retrieval import VectorDB
+# from .zhipuLLM import ChatGLM
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
-from logging import getLogger
 
-def text_stream(template : str, query : dict, db : Retrieval.VectorDB, topk: int = 10):
+def text_stream(template : str, query : dict, db : VectorDB, topk: int = 10):
 	prompt = ChatPromptTemplate.from_template(template)
-	model = openaiLLM.ChatGLM()
+	model =  ChatGLM()
 	output_parser = StrOutputParser()
 	values = db.query(query['query'])["documents"][0]
 	res = {}
