@@ -27,7 +27,7 @@ app.logger.info(globals.global_vars.get("api_key"))
 class ChatGLM(LLM):
 	openai_model: Optional[str] = 'gpt-3.5-turbo'
 	temperature: Optional[str] = 0.7
-	max_tokens: int = 256
+	max_tokens: int = 500
 	top_p: float = 1
 	
 

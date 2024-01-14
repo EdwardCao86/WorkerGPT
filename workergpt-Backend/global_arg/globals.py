@@ -1,5 +1,5 @@
 class GlobalVariables:
-	def __init__(self):
+	def    __init__(self):
 		self.variables = {}
 
 	def get(self, key):

@@ -16,9 +16,13 @@ const { inputText }= storeToRefs(store)
       <el-scrollbar>
         <ul>
           <li v-for="(m) in inputText" class="scrollbar-demo-item">
-			
-<!--            <span><el-avatar :icon="UserFilled" /></span>-->
-            <p>{{m}}</p>
+            <div v-if="m.role === 'user'">
+              <p>{{m.content}}</p>
+            </div>
+            <div v-else>
+<!--              <el-avatar  shape="square" :size="30"> GPT </el-avatar>-->
+              <p>{{m.content}}</p>
+            </div>
           </li>
         </ul>
       </el-scrollbar>

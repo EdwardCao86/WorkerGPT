@@ -111,6 +111,7 @@ def chat():
 		with app.app_context():
 			stream = text_stream(template=document_template + query_template, query={"query": query}, db=vectorDB, topk=topk)
 			for events in stream:
+				print(events)
 				yield json.dumps(events).encode()
 
 	return Response(generate_response(), mimetype='application/json')
