@@ -3,7 +3,7 @@
 import { reactive } from 'vue'
 import { useInputStore } from '@/stores/inputContent'
 import { Upload } from "@element-plus/icons-vue";
-import { useReplyStore } from '@/stores/replyContent';
+import { marked } from 'marked'
 
 // 表单上传
 // 输入框数据
@@ -11,19 +11,37 @@ const inputMessage = reactive({
 	content: '',
 })
 const input = useInputStore()
-const reply = useReplyStore()
 
 function submit() {
-	input.changeContent(inputMessage.content)
+	input.changeContent(inputMessage.content,'user')
 	const inputText = inputMessage.content
 	inputMessage.content = ''
 	makeGptRequest(inputText)
 }
+function getQuotedSubstrings(input: string): string[] {
+  const substrings: string[] = [];
+  const regex = /"([^"]*)"/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(input)) !== null) {
+    substrings.push(match[1]);
+  }
+
+  return substrings;
+}
+function replaceSingleQuotesWithDoubleQuotes(jsonString: string): object {
+  const modifiedJsonString = jsonString.replace(/'/g, '"').replace(/None/g, 'null');
+  const jsonObject = JSON.parse(modifiedJsonString);
+  return jsonObject;
+}
+
+
 
 // gpt请求
 function makeGptRequest(inputText: string) {
 
   console.log(inputText)
+  input.gptReply()
   const requestOptions = {
     method: 'POST', // 请求方法，可以是GET、POST等
     headers: { "Content-Type": 'application/json' }, // 请求头，指定数据格式为JSON
@@ -32,44 +50,36 @@ function makeGptRequest(inputText: string) {
   // 发送请求到后端获取流式输出
   // 发送请求
   fetch('/api/chat', requestOptions)
-    .then(response => {
-      // 获取可读流
+    .then(async response => {
+      //获取UTF8的解码
+      const encode = new TextDecoder("utf-8");
+      //获取body的reader
       const reader = response.body.getReader();
-  
-      // 读取数据
-      return new ReadableStream({
-        start(controller) {
-          function push() {
-            reader.read().then(({ done, value }) => {
-              // 当数据读取完毕时，关闭流
-              if (done) {
-                controller.close();
-                return;
-              }
-  		
-              // 将数据放入流中
-              controller.enqueue(value);
-  		
-              // 读取下一块数据
-              push();
-            });
-          };
-  	
-          push();
+      // 循环读取reponse中的内容
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
         }
-      });
+        // 使用正则表达式匹配所有双引号中间的内容
+
+        let result;
+        result = encode.decode(value)
+
+        const quotedSubstrings = getQuotedSubstrings(result);
+        for (const substring of quotedSubstrings) {
+          const jsonObject = replaceSingleQuotesWithDoubleQuotes(substring);
+          let text = jsonObject.choices[0].delta.content
+          input.pushContent(text)
+
+        }
+
+
+
+
+      }
+
     })
-    .then(stream => {
-      // 将流转换为文本
-  	console.log(stream)
-      return new Response(stream).text();
-  	
-    })
-    .then(result => {
-      // 处理结果
-	  console.log(result);
-	  reply.changeContent(result)
-    });
 }
 
 </script>
