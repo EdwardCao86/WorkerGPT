@@ -20,9 +20,6 @@ app.logger.info('DocumentLoader has been loaded')
 documentSpliter = DocumentSpliter()
 app.logger.info('DocumentSpliter has been splited')
 
-
-
-
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
 	if 'file' not in request.files:
@@ -116,5 +113,4 @@ def chat():
 	return Response(generate_response(), mimetype='application/json')
 
 if __name__ == '__main__':
-	# text_stream(template="问题是：{query}", query={"query": "你好"}, db=vectorDB, topk=10)
 	app.run()
