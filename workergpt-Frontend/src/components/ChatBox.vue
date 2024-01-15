@@ -3,6 +3,7 @@
 import { useInputStore } from '@/stores/inputContent'
 import {storeToRefs} from "pinia";
 import {UserFilled} from "@element-plus/icons-vue";
+import DialogContainer from "@/components/DialogContainer.vue";
 
 const store = useInputStore()
 
@@ -16,12 +17,7 @@ const { inputText }= storeToRefs(store)
       <el-scrollbar>
         <ul>
           <li v-for="(m) in inputText" class="scrollbar-demo-item">
-            <div v-if="m.role === 'user'">
-              <p>🟦<br>{{m.content}}</p>
-            </div>
-            <div v-else>
-              <p>🟩<br>{{m.content}}</p>
-            </div>
+            <dialog-container :content=m></dialog-container>
           </li>
         </ul>
       </el-scrollbar>
