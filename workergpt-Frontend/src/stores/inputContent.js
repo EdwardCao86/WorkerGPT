@@ -7,7 +7,7 @@ export const useInputStore = defineStore('input', () => {
     function changeContent(content,role) {
         inputText.value.push(
             {
-                'content':'User: \n'+content,
+                'content':content,
                 'role':role
             }
         )
@@ -15,7 +15,7 @@ export const useInputStore = defineStore('input', () => {
     function gptReply() {
         inputText.value.push(
             {
-                'content':'',
+                'content':``,
                 'role':'gpt'
             }
         )

@@ -17,11 +17,10 @@ const { inputText }= storeToRefs(store)
         <ul>
           <li v-for="(m) in inputText" class="scrollbar-demo-item">
             <div v-if="m.role === 'user'">
-              <p>{{m.content}}</p>
+              <p>🟦<br>{{m.content}}</p>
             </div>
             <div v-else>
-<!--              <el-avatar  shape="square" :size="30"> GPT </el-avatar>-->
-              <p>{{m.content}}</p>
+              <p>🟩<br>{{m.content}}</p>
             </div>
           </li>
         </ul>
@@ -53,9 +52,9 @@ p {
 .scrollbar-demo-item {
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: flex-start;
   margin: 10px;
-  text-align: center;
+  text-align: left;
   border-radius: 4px;
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);

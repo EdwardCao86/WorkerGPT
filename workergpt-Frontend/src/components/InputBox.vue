@@ -69,7 +69,6 @@ function makeGptRequest(inputText: string) {
         for (const substring of quotedSubstrings) {
           const jsonObject = replaceSingleQuotesWithDoubleQuotes(substring);
           const text = jsonObject.choices[0].delta.content
-          console.log(text);
           input.pushContent(text)
 
         }
