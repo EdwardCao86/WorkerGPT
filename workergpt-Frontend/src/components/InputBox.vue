@@ -3,6 +3,7 @@
 import { reactive } from 'vue'
 import { useInputStore } from '@/stores/inputContent'
 import { Upload } from "@element-plus/icons-vue";
+import { marked } from 'marked'
 
 // 表单上传
 // 输入框数据
@@ -68,7 +69,7 @@ function makeGptRequest(inputText: string) {
         const quotedSubstrings = getQuotedSubstrings(result);
         for (const substring of quotedSubstrings) {
           const jsonObject = replaceSingleQuotesWithDoubleQuotes(substring);
-          const text = jsonObject.choices[0].delta.content
+          let text = jsonObject.choices[0].delta.content
           input.pushContent(text)
 
         }
