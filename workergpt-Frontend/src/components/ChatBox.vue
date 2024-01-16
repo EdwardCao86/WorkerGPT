@@ -17,7 +17,7 @@ const { inputText }= storeToRefs(store)
       <el-scrollbar>
         <ul>
           <li v-for="(m) in inputText" class="scrollbar-demo-item">
-            <dialog-container :content=m></dialog-container>
+            <dialog-container :text=m></dialog-container>
           </li>
         </ul>
       </el-scrollbar>
