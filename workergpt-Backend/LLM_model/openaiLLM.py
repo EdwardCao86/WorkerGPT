@@ -61,13 +61,18 @@ class ChatGLM(LLM):
 
 	def _call(self, prompt: str,
 			  stop: Optional[List[str]] = None) -> str:
-		res = zhipuai.model_api.invoke(
-			model="chatglm_turbo",
-			prompt=prompt,
+		print("got it")
+		completion = client.chat.completions.create(
+  			model="gpt-3.5-turbo",
+  			messages=[
+    			{
+					"role": "user", 
+					"content": prompt
+				}
+  			]
 		)
-		res = res["data"]["choices"][0]["content"]
-		return res
-
+		return completion.choices[0].message.content
+	
 	@property
 	def _identifying_params(self) -> Mapping[str, Any]:
 		"""Get the identifying parameters.
