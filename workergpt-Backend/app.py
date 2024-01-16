@@ -3,6 +3,7 @@ from flask import Flask, render_template, request ,Response
 import os
 from flask import jsonify
 import json
+import time
 
 from .LLM_model.DocumentLoader import DocumentLoader
 from .LLM_model.DocumentSpliter import DocumentSpliter
@@ -129,11 +130,7 @@ def analyze():
 	result = []
 	for p in res:
 		# Execute Python file
-		subprocess.run(['python', p])
-		
-		# Assuming the generated image has a specific name and location
-		image_folder = './temp/'
-		image_files = glob.glob(image_folder + '*.png')
+		image_files = run_and_get_file_name(p)
 		
 		for image_path in image_files:
 			# Read the image and convert it to base64
@@ -159,11 +156,9 @@ def analyze_chat():
 	result = []
 	for p in res:
 		# Execute Python file
-		subprocess.run(['python', p])
+		image_files = run_and_get_file_name(p)
 		
 		# Assuming the generated image has a specific name and location
-		image_folder = './temp/'
-		image_files = glob.glob(image_folder + '*.png')
 		
 		for image_path in image_files:
 			# Read the image and convert it to base64
@@ -179,6 +174,27 @@ def analyze_chat():
 			result.append(image_json)
 	
 	return jsonify(result)
+
+def run_and_get_file_name(pyname: str):
+	# 图片文件所在的目录
+	directory = "./temp/"
+
+	# 在Python文件运行前获取文件列表
+	before = set(glob.glob(directory + '*.png'))
+
+	# 运行Python文件
+	subprocess.run(["python", pyname])
+
+	# 等待一段时间，确保Python文件已经完成运行
+	time.sleep(10)
+
+	# 在Python文件运行后获取文件列表
+	after = set(glob.glob(directory + '*.png'))
+
+	# 找出新创建的文件
+	new_files = after - before
+
+	return new_files
 
 if __name__ == '__main__':
 	app.run()
