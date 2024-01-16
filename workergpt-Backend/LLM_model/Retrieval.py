@@ -1,12 +1,7 @@
-from langchain.vectorstores import Chroma
+from langchain.vectorstores.chroma import Chroma
 from langchain.embeddings import HuggingFaceBgeEmbeddings
-import os
-import chromadb
 
-from . import DocumentLoader
-from . import DocumentSpliter
-
-from chromadb import Documents, EmbeddingFunction, Embeddings
+from chromadb import Documents, EmbeddingFunction, Embeddings, PersistentClient
 import hashlib
 
 class MyEmbeddingFunction(EmbeddingFunction):
@@ -33,7 +28,7 @@ class VectorDB:
 			)
 		self.embeddings = embeddings
 		user_name = db_path.split("/")[-1]
-		self.chroma_client = chromadb.PersistentClient(db_path)
+		self.chroma_client = PersistentClient(db_path)
 		self.db_path = db_path
 		self.db = Chroma(client=self.chroma_client, collection_name=user_name, embedding_function = self.embeddings)
 		self.collection = self.chroma_client.get_collection(user_name)
@@ -43,19 +38,20 @@ class VectorDB:
 	
 	def add(self, documents):
 		print(documents)
-		ids = [generate_hash(doc.page_content) for doc in documents]
+		ids = []
+		contents = []
+		metadatas = []
 
-		contents = [doc.page_content for doc in documents]
-		metadatas = [doc.metadata for doc in documents]
+		for doc in documents:
+			doc_id = generate_hash(doc.page_content)
+			if doc_id not in ids:
+				ids.append(doc_id)
+				contents.append(doc.page_content)
+				metadatas.append(doc.metadata)
 
-		# Create a new map using ids as the key and combine documents and metadatas
-		new_map = {id: (doc, meta) for id, doc, meta in zip(ids, contents, metadatas)}
-		ids = list(new_map.keys())
-		values = list(new_map.values())
-		contents = [value[0] for value in values]
-		metadatas = [value[1] for value in values]
+		self.collection.add(ids=ids, documents=contents, metadatas=metadatas)
 
-		self.collection.update(ids=ids, documents=contents, metadatas=metadatas)
+		return self.collection.count()
 		
 	def query(self, query, top_k=10):
 		matched_documents = self.collection.query(query_texts=query, n_results=top_k)
@@ -65,3 +61,7 @@ class VectorDB:
 		file_path = './' + username + '/' + file_name.split(".")[-1] + '/' + file_name
 		print(file_path)
 		self.collection.delete(where={"source": file_path})
+		return self.collection.count()
+
+	def count(self):
+		return self.collection.count()

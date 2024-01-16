@@ -11,6 +11,9 @@ def text_stream(template : str, query : dict, db : VectorDB, topk: int = 10):
 	model =  ChatGLM()
 	output_parser = StrOutputParser()
 	values = db.query(query['query'])["documents"][0]
+	print(db.count())
+	print(values)
+	print(len(values))
 	res = {}
 	for i in range(topk):
 		res['document' + str(i + 1)] = ''

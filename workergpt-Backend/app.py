@@ -20,9 +20,6 @@ app.logger.info('DocumentLoader has been loaded')
 documentSpliter = DocumentSpliter()
 app.logger.info('DocumentSpliter has been splited')
 
-
-
-
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
 	if 'file' not in request.files:
@@ -47,7 +44,8 @@ def upload_file():
 	
 	documents = documentSpliter.split_document(documentLoader.load_file('admin', filename=file.filename))
 	print(documents)
-	vectorDB.add(documents)
+	res = vectorDB.add(documents)
+	app.logger.info(res)
 	return 'File uploaded successfully'
 
 
@@ -93,12 +91,12 @@ def delete_file():
 
 	os.remove(filepath)
 	file_json = {'filename': filename, 'success': True, 'message': 'File deleted successfully'}
-	vectorDB.delete('admin' , filename)
+	res = vectorDB.delete('admin' , filename)
+	app.logger.info(res)
 	return jsonify(file_json)
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-	app.logger.info(request.data)
 	data = request.get_json()
 	query = data['query']
 	topk = 10
@@ -111,11 +109,10 @@ def chat():
 		with app.app_context():
 			stream = text_stream(template=document_template + query_template, query={"query": query}, db=vectorDB, topk=topk)
 			for events in stream:
-				print(events)
+				app.logger.info(events)
 				yield json.dumps(events).encode()
 
 	return Response(generate_response(), mimetype='application/json')
 
 if __name__ == '__main__':
-	# text_stream(template="问题是：{query}", query={"query": "你好"}, db=vectorDB, topk=10)
 	app.run()

@@ -42,7 +42,8 @@ class ChatGLM(LLM):
 		temperature= self.temperature,
 		max_tokens=self.max_tokens,
 		top_p=self.top_p,
-    	stream=True,	
+    	stream=True,
+		timeout=120,	
 		)
 		return stream
 
