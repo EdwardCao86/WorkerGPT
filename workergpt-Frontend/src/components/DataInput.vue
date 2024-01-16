@@ -19,8 +19,9 @@ function submit() {
   makeGptRequest(inputText)
 }
 import { useFileStore } from '@/stores/fileName'
-
+import { useImgsStore } from '@/stores/imgs'
 const file = useFileStore()
+const img = useImgsStore()
 // gpt请求
 function makeGptRequest(inputText: string) {
 
@@ -36,7 +37,14 @@ function makeGptRequest(inputText: string) {
   fetch('/api/analyze_chat', requestOptions)
       .then(response => response.json())
       .then(result => {
+        img.clean()
         console.log(result)
+        result.forEach(function(item) {
+          console.log(item.path)
+          let str = "http://127.0.0.1:5000" + item.path
+          console.log(str)
+          img.changeImgs(str)
+        });
       })
 }
 
@@ -52,7 +60,7 @@ function makeGptRequest(inputText: string) {
                 v-model="inputMessage.content"
                 :autosize="{ minRows: 1, maxRows: 1 }"
                 type="textarea"
-                placeholder="😊请在这里输入需要你要问的问题!😊"
+                placeholder="😊告诉我你想绘制什么样的图表!😊"
             />
           </el-form-item>
         </el-col>

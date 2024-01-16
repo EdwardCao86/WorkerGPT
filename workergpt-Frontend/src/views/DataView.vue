@@ -3,19 +3,22 @@
 import FIleUploadSider from "@/components/FIleUploadSider.vue";
 import InputBox from "@/components/InputBox.vue";
 import ChatBox from "@/components/ChatBox.vue";
+import DataInput from "@/components/DataInput.vue";
+import DataFlieUploader from "@/components/DataFlieUploader.vue";
+import ImgContainer from "@/components/ImgContainer.vue";
 </script>
 
 <template>
   <el-container class="ec">
     <el-aside class="side-bar" width="300px">
-      <FIleUploadSider></FIleUploadSider>
+      <DataFlieUploader></DataFlieUploader>
     </el-aside>
     <el-container>
       <el-main class="dialog-container">
-        <ChatBox></ChatBox>
+        <imgContainer></imgContainer>
       </el-main>
       <el-footer class="input-container">
-        <input-box></input-box>
+        <DataInput></DataInput>
       </el-footer>
     </el-container>
   </el-container>

@@ -18,7 +18,7 @@
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        支持xlsx，docx，csv，pdf等文件
+        支持csv文件,一次只能上传一个文件分析
       </div>
     </template>
   </el-upload>
