@@ -1,3 +1,4 @@
+import base64
 from flask import Flask, render_template, request ,Response
 import os
 from flask import jsonify
@@ -12,7 +13,9 @@ from .global_arg.config import config_setting
 app = Flask(__name__)
 config_setting(app)
 
-from .LLM_model.Chain import text_stream
+from .LLM_model.Chain import text_stream, analyze_stream
+import subprocess
+import json
 vectorDB = VectorDB('db/admin')
 app.logger.info('VectorDB has been loaded')
 documentLoader = DocumentLoader()
@@ -100,6 +103,8 @@ def chat():
 	data = request.get_json()
 	query = data['query']
 	topk = 10
+
+	print(os.getcwd())
 	
 	with open('./prompt/Document.txt', 'r', encoding='utf-8') as document_file, open('./prompt/Query.txt', 'r', encoding='utf-8') as query_file:
 		document_template = document_file.read()
@@ -113,6 +118,35 @@ def chat():
 				yield json.dumps(events).encode()
 
 	return Response(generate_response(), mimetype='application/json')
+
+@app.route('/api/analyze', methods=['POST'])
+def analyze():
+	data = request.get_json()
+	path = data['path']
+	res = analyze_stream(query={"path": path})
+	
+	result = []
+	for p in res:
+		# Execute Python file
+		subprocess.run(['python', p])
+		
+		# Assuming the generated image has a specific name and location
+		image_path = p.replace('.py', '.png')
+		
+		# Read the image and convert it to base64
+		with open(image_path, 'rb') as f:
+			image_data = f.read()
+			image_base64 = base64.b64encode(image_data).decode('utf-8')
+		
+		# Create JSON object for each image
+		image_json = {
+			'path': p,
+			'image': image_base64
+		}
+		
+		result.append(image_json)
+	
+	return jsonify(result)
 
 if __name__ == '__main__':
 	app.run()
