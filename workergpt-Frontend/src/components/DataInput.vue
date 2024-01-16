@@ -40,8 +40,8 @@ function makeGptRequest(inputText: string) {
         img.clean()
         console.log(result)
         result.forEach(function(item) {
-          console.log(item.path)
-          let str = "http://127.0.0.1:5000" + item.path
+          console.log(item.image)
+          let str = "data:image/png;base64," + item.image
           console.log(str)
           img.changeImgs(str)
         });

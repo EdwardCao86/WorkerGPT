@@ -1,16 +1,27 @@
 
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 
-# 读取CSV文件
-data = pd.read_csv('./admin/csv/学生成绩.csv', encoding='utf-8', na_values='NaN')
+# Load the CSV file
+data = pd.read_csv('./admin/csv/data.csv')
 
-# 绘制年龄分布图
-plt.hist(data['年龄'].dropna(), bins=10, edgecolor='k')
-plt.xlabel('年龄')
-plt.ylabel('人数')
-plt.title('年龄分布图')
+# Encode non-numeric fields as numeric fields
+data['education'] = data['education'].astype('category').cat.codes
+data['marital-status'] = data['marital-status'].astype('category').cat.codes
+data['occupation'] = data['occupation'].astype('category').cat.codes
+data['relationship'] = data['relationship'].astype('category').cat.codes
+data['race'] = data['race'].astype('category').cat.codes
+data['sex'] = data['sex'].astype('category').cat.codes
+data['native-country'] = data['native-country'].astype('category').cat.codes
+data['income'] = data['income'].astype('category').cat.codes
 
-# 保存图片
-plt.savefig('./temp/年龄分布图.png')
+# Calculate correlation matrix
+corr = data.corr()
+
+# Plot the correlation matrix as a heatmap
+sns.heatmap(corr, annot=True, fmt=".2f", cmap="coolwarm")
+
+# Save the plot to a file
+plt.savefig('./temp/correlation_heatmap.png')
 

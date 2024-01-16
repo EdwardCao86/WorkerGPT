@@ -13,7 +13,7 @@ const store = useImgsStore()
       <ul>
         <li v-for="(m) in store.imgs" class="scrollbar-demo-item">
           <div>
-            <img :src="m" alt="图片">
+            <img :src="m" alt="图片"/>
           </div>
         </li>
       </ul>
