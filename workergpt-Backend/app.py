@@ -18,6 +18,7 @@ from .LLM_model.Chain import text_stream, analyze_stream, analyze_chat_stream
 import subprocess
 import json
 import glob
+import os
 vectorDB = VectorDB('db/admin')
 app.logger.info('VectorDB has been loaded')
 documentLoader = DocumentLoader()
@@ -123,6 +124,7 @@ def chat():
 
 @app.route('/api/analyze', methods=['POST'])
 def analyze():
+	clean()
 	data = request.get_json()
 	path = data['path']
 	res = analyze_stream(query={"path": path})
@@ -149,6 +151,7 @@ def analyze():
 
 @app.route('/api/analyze_chat', methods=['POST'])
 def analyze_chat():
+	clean()
 	data = request.get_json()
 	path = data['path']
 	res = analyze_chat_stream(query={"path": path, "提示" : data['query']})
@@ -195,6 +198,17 @@ def run_and_get_file_name(pyname: str):
 	new_files = after - before
 
 	return new_files
+
+def clean():
+	directory = "./temp/"
+	files = os.listdir(directory)
+	for file in files:
+		if file.endswith(".png"):
+			os.remove(os.path.join(directory, file))
+
+if __name__ == '__main__':
+	clean()
+	app.run()
 
 if __name__ == '__main__':
 	app.run()
