@@ -1,6 +1,8 @@
 <script setup>
 
 import FIleUploadSider from "@/components/FIleUploadSider.vue";
+import InputBox from "@/components/InputBox.vue";
+import ChatBox from "@/components/ChatBox.vue";
 </script>
 
 <template>
@@ -9,8 +11,12 @@ import FIleUploadSider from "@/components/FIleUploadSider.vue";
       <FIleUploadSider></FIleUploadSider>
     </el-aside>
     <el-container>
-      <el-main class="dialog-container">Main</el-main>
-      <el-footer class="input-container">fotter</el-footer>
+      <el-main class="dialog-container">
+        <ChatBox></ChatBox>
+      </el-main>
+      <el-footer class="input-container">
+        <input-box></input-box>
+      </el-footer>
     </el-container>
   </el-container>
 </template>
@@ -22,23 +28,19 @@ import FIleUploadSider from "@/components/FIleUploadSider.vue";
   width: 80%;
   margin: auto;
 }
-.main-container{
-  background-color: yellowgreen;
-  height: 100%;
-  width: 80%;
-  margin: auto;
-}
+
 .side-bar{
   height: 100%;
-  background-color: yellow;
+  background-color: whitesmoke;
 }
 .dialog-container{
   height: 100%;
-  background-color: lightgreen;
+//background-color: lightgreen;
+  overflow: hidden;
 }
 
 .input-container{
-  background-color: deepskyblue;
+//background-color: deepskyblue;
 }
 
 </style>

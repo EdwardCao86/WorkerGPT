@@ -38,18 +38,13 @@ import { RouterLink, RouterView } from 'vue-router'
               </el-menu-item>
               <el-divider />
               <el-menu-item index="/TextGeneration">
-                <el-icon><Histogram /></el-icon>
+                <el-icon><document /></el-icon>
                 <span>智能问答</span>
               </el-menu-item>
               <el-divider />
               <el-menu-item index="/DataAnalysis">
                 <el-icon><Histogram /></el-icon>
                 <span>数据分析</span>
-              </el-menu-item>
-              <el-divider />
-              <el-menu-item index="/TextAnalysis">
-                <el-icon><document /></el-icon>
-                <span>文档处理</span>
               </el-menu-item>
             </el-menu>
           </el-aside>
