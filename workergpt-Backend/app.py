@@ -142,7 +142,8 @@ def analyze():
 			
 			# Create JSON object for each image
 			image_json = {
-				'path': image_path
+				'path': image_path,
+				'image': image_base64
 			}
 			
 			result.append(image_json)
@@ -171,7 +172,8 @@ def analyze_chat():
 			
 			# Create JSON object for each image
 			image_json = {
-				'path': image_path
+				'path': image_path,
+				'image': image_base64
 			}
 			
 			result.append(image_json)

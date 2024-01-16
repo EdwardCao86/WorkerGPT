@@ -3,32 +3,25 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Read the CSV file
-data = pd.read_csv('./admin/csv/german_credit.csv')
+# 读取CSV文件
+df = pd.read_csv('./admin/csv/german_credit.csv')
 
-# Encode non-numeric attributes
-data['account_check_status'] = pd.factorize(data['account_check_status'])[0]
-data['credit_history'] = pd.factorize(data['credit_history'])[0]
-data['purpose'] = pd.factorize(data['purpose'])[0]
-data['savings'] = pd.factorize(data['savings'])[0]
-data['present_emp_since'] = pd.factorize(data['present_emp_since'])[0]
-data['personal_status_sex'] = pd.factorize(data['personal_status_sex'])[0]
-data['other_debtors'] = pd.factorize(data['other_debtors'])[0]
-data['property'] = pd.factorize(data['property'])[0]
-data['other_installment_plans'] = pd.factorize(data['other_installment_plans'])[0]
-data['housing'] = pd.factorize(data['housing'])[0]
-data['job'] = pd.factorize(data['job'])[0]
-data['telephone'] = pd.factorize(data['telephone'])[0]
-data['foreign_worker'] = pd.factorize(data['foreign_worker'])[0]
+# 数据预处理
+num_vars = ['default', 'duration_in_month', 'credit_amount', 'installment_as_income_perc', 'present_res_since',
+            'age', 'credits_this_bank', 'people_under_maintenance']
+cat_vars = ['account_check_status', 'credit_history', 'purpose', 'savings', 'present_emp_since',
+            'personal_status_sex', 'other_debtors', 'property', 'other_installment_plans', 'housing',
+            'job', 'telephone', 'foreign_worker']
 
-# Calculate correlation matrix
-corr_matrix = data.corr().round(2)
+# 编码非数值属性
+df_encoded = df.copy()
+for var in cat_vars:
+    df_encoded[var] = df[var].astype('category').cat.codes
 
-# Plot heatmap
-plt.figure(figsize=(12, 10))
-sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
-plt.title('Correlation Heatmap')
-
-# Save the plot
+# 绘制相关性热力图
+corr_matrix = df_encoded.corr()
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix, annot=True, fmt=".2f")
+plt.title("Correlation Heatmap")
 plt.savefig('./temp/correlation_heatmap.png')
 
