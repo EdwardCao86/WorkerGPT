@@ -6,7 +6,7 @@ from ..app import app
 file_path = ''
 
 def get_csv_header(path: str):
-	with open(path, 'r') as file:
+	with open(path, 'r', encoding='utf-8') as file:
 		reader = csv.reader(file)
 		header = next(reader)
 	return header
