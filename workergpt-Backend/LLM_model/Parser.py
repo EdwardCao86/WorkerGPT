@@ -23,7 +23,7 @@ class CodeParser(BaseOutputParser[list]):
 		filename = './temp/output.py'
 		
 		with open(filename, 'w', encoding='utf-8') as file:
-			file.write(text + '\n')
+			file.write(text.replace('```', '').replace('python', '') + '\n')
 		
 		# Add the filename to the list
 		filenames.append(filename)	
