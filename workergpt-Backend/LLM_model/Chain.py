@@ -64,3 +64,29 @@ def analyze_stream(query : str) :
 	print(query)
 	
 	return chain.invoke(query)
+
+def analyze_chat_stream(query : str) :
+	print(os.getcwd())
+	with open('./prompt/CreateCode.txt', 'r', encoding='utf-8') as CreatCode:
+		creat_code = CreatCode.read()
+	
+
+	print(creat_code)
+	creat_code_promt = PromptTemplate.from_template(creat_code)
+	model = ChatGLM()
+
+	code_parser = CodeParser()
+
+	chain = creat_code_promt | model | code_parser
+
+	Parser.file_path = './admin/csv/' + query['path']
+
+	header = get_csv_header(Parser.file_path)
+
+	query['path'] = Parser.file_path
+	query['字段'] = str.join(',', header)
+
+	print(query)
+	
+	return chain.invoke(query)
+
