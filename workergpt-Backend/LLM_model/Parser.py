@@ -20,8 +20,9 @@ class CodeParser(BaseOutputParser[list]):
 	def parse(self, text: str) -> list:
 		print(text)
 		filenames = []
-		filename = f'./temp/output.py'
-		with open(filename, 'w') as file:
+		filename = './temp/output.py'
+		
+		with open(filename, 'w', encoding='utf-8') as file:
 			file.write(text + '\n')
 		
 		# Add the filename to the list

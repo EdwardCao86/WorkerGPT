@@ -5,6 +5,7 @@ config.ini
 
 admin/
 db/
+temp/
 
 .vscode/
 .idea/

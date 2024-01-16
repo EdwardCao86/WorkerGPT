@@ -16,6 +16,7 @@ config_setting(app)
 from .LLM_model.Chain import text_stream, analyze_stream
 import subprocess
 import json
+import glob
 vectorDB = VectorDB('db/admin')
 app.logger.info('VectorDB has been loaded')
 documentLoader = DocumentLoader()
@@ -131,20 +132,21 @@ def analyze():
 		subprocess.run(['python', p])
 		
 		# Assuming the generated image has a specific name and location
-		image_path = p.replace('.py', '.png')
+		image_folder = './temp/'
+		image_files = glob.glob(image_folder + '*.png')
 		
-		# Read the image and convert it to base64
-		with open(image_path, 'rb') as f:
-			image_data = f.read()
-			image_base64 = base64.b64encode(image_data).decode('utf-8')
-		
-		# Create JSON object for each image
-		image_json = {
-			'path': p,
-			'image': image_base64
-		}
-		
-		result.append(image_json)
+		for image_path in image_files:
+			# Read the image and convert it to base64
+			with open(image_path, 'rb') as f:
+				image_data = f.read()
+				image_base64 = base64.b64encode(image_data).decode('utf-8')
+			
+			# Create JSON object for each image
+			image_json = {
+				'path': image_path
+			}
+			
+			result.append(image_json)
 	
 	return jsonify(result)
 

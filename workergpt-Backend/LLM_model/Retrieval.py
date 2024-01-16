@@ -43,6 +43,7 @@ class VectorDB:
 		metadatas = []
 
 		for doc in documents:
+			print(doc.page_content)
 			doc_id = generate_hash(doc.page_content)
 			if doc_id not in ids:
 				ids.append(doc_id)

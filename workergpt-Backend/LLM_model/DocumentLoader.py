@@ -7,18 +7,21 @@ from langchain.document_loaders import TextLoader, CSVLoader, PyPDFLoader, \
 
 def get_fileloader(filetype: str, file_name: str):
 	if filetype == 'txt':
-		return TextLoader(file_name, encoding='utf-8')
+		return TextLoader(file_name, encoding='utf-8').load()
 	elif filetype == 'csv':
-		return CSVLoader(file_path=file_name, encoding='utf-8')
+		return CSVLoader(file_path=file_name, encoding='utf-8').load()
 	# json格式使用jq依赖，无法在win上正常运作，先不做支持。
 	# elif filetype == 'json':
 	# 	return JSONLoader(file_path=file_name, jq_schema='.messages[].content')
 	elif filetype == 'html':
-		return BSHTMLLoader(file_path=file_name, open_encoding='utf-8')
+		return BSHTMLLoader(file_path=file_name, open_encoding='utf-8').load()
 	elif filetype == 'md':
-		return UnstructuredMarkdownLoader(file_path=file_name)
+		return UnstructuredMarkdownLoader(file_path=file_name).load()
 	elif filetype == 'pdf':
-		return PyPDFLoader(file_path=file_name)
+		res = PyPDFLoader(file_path=file_name).load()
+		for item in res:
+			item.page_content = item.page_content.replace(' ', '')
+		return res
 	else:
 		return None
 
@@ -43,11 +46,11 @@ class DocumentLoader:
 		filetype = filename.split('.')[-1]
 		loader_cls = get_fileloader(filetype, './' + username + '/' + filetype + '/' + filename)
 		text_loader = loader_cls
-		return text_loader.load()
+		return text_loader
 
 	def _load_directory(self, filetype: str):
 		glob_path = self.username + '/' + filetype + '/'
 		text_loader_kwargs = {'autodetect_encoding': True}
 		directory_loader = DirectoryLoader(glob_path, use_multithreading=True, loader_cls=get_fileloader(filetype),
 										   silent_errors=True, loader_kwargs=text_loader_kwargs)
-		return directory_loader.load()
+		return directory_loader
