@@ -5,7 +5,22 @@ from langchain.document_loaders import TextLoader, CSVLoader, PyPDFLoader, \
 	DirectoryLoader, JSONLoader, BSHTMLLoader, UnstructuredMarkdownLoader
 
 
-def get_fileloader(filetype: str, file_name: str):
+def get_fileloader(filetype: str, file_name: str = ''):
+	if file_name == '':
+		if filetype == 'txt':
+			return TextLoader
+		elif filetype == 'csv':
+			return CSVLoader
+		# json格式使用jq依赖，无法在win上正常运作，先不做支持。
+		# elif filetype == 'json':
+		# 	return JSONLoader(file_path=file_name, jq_schema='.messages[].content')
+		elif filetype == 'html':
+			return BSHTMLLoader
+		elif filetype == 'md':
+			return UnstructuredMarkdownLoader
+		elif filetype == 'pdf':
+			return PyPDFLoader
+
 	if filetype == 'txt':
 		return TextLoader(file_name, encoding='utf-8').load()
 	elif filetype == 'csv':
